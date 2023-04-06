@@ -9,6 +9,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+
+import com.totvs.entrevista.pessoa.util.validation.CaracteresUnicos;
+
 import javax.persistence.ManyToOne;
 
 
@@ -23,6 +26,7 @@ public class Telefone {
 	
 	@Column(unique = true)
 	@NotEmpty(message = "Número do telefone deve ser adicionado")
+	@CaracteresUnicos
 	private String numero;
 	
 	@ManyToOne
