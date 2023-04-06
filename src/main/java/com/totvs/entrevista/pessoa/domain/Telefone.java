@@ -16,8 +16,7 @@ import javax.persistence.ManyToOne;
 public class Telefone {
 	
 	@Id
-	@SequenceGenerator(name = "telefone_id_seq", sequenceName = "telefone_id_seq", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "telefone_id_seq")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Integer id;
 	
@@ -25,7 +24,7 @@ public class Telefone {
 	private String numero;
 	
 	@ManyToOne
-	@JoinColumn(name="id")
+	@JoinColumn(name="pessoa_id")
 	private Pessoa pessoa;
 
 	public Integer getId() {
