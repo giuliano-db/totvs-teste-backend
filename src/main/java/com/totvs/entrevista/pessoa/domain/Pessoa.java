@@ -26,7 +26,7 @@ public class Pessoa {
 	private Integer id;
 	
 	@NotEmpty(message="Preenchimento obrigatório")
-	@Length(min=3, max=10,message="O tamanho deve ser entre 3 e 10")
+	@Length(min=10, max=50,message="O tamanho deve ser entre 10 e 50")
 	private String nome;
 	
 	private String endereco;

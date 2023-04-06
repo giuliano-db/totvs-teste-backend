@@ -2,6 +2,8 @@ package com.totvs.entrevista.pessoa.resources;
 
 import java.net.URI;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,8 +23,7 @@ public class PessoaResource {
 	private PessoaService service;
 	
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert(@RequestBody Pessoa pessoa){
-		
+	public ResponseEntity<Void> insert(@Valid @RequestBody Pessoa pessoa){
 		service.insert(pessoa);
 		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
