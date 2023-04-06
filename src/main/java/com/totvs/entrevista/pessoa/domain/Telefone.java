@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 import javax.persistence.ManyToOne;
 
 
@@ -21,6 +22,7 @@ public class Telefone {
 	private Integer id;
 	
 	@Column(unique = true)
+	@NotEmpty(message = "Número do telefone deve ser adicionado")
 	private String numero;
 	
 	@ManyToOne

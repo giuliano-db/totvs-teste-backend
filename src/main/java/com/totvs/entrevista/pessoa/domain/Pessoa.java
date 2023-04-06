@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -33,6 +34,7 @@ public class Pessoa {
 	private String bairro;
 	
 	@OneToMany(mappedBy="pessoa",cascade = CascadeType.ALL)
+	@Size(min=1,message = "Necessário ao menos um telefone")
 	private Set<Telefone> telefones = new HashSet<>();
 
 	public Integer getId() {
