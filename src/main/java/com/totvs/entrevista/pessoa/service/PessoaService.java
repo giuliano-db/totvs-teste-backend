@@ -1,5 +1,6 @@
 package com.totvs.entrevista.pessoa.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,9 +48,13 @@ public class PessoaService {
 		dto.setNome(obj.getNome());
 		dto.setId(obj.getId());
 		
-		List<TelefoneDTO> listTelefone = obj.getTelefones().stream().map(x -> new TelefoneDTO( x.getId() ,x.getNumero() )).toList();
-		dto.setTelefones(listTelefone);
-		
+		if (obj.getTelefones() != null) {
+			List<TelefoneDTO> listTelefone = obj.getTelefones().stream().map(x -> new TelefoneDTO( x.getId() ,x.getNumero() )).toList();
+			dto.setTelefones(listTelefone);
+		}
+		 else {
+				dto.setTelefones(new ArrayList<TelefoneDTO>());
+			}
 		return dto;
 		
 	}
@@ -61,8 +66,12 @@ public class PessoaService {
 		obj.setNome(dto.getNome());
 		obj.setId(dto.getId());
 		
-		List<Telefone> listTelefone = dto.getTelefones().stream().map(x -> new Telefone( x.getId() ,x.getNumero() )).toList();
-		obj.setTelefones(listTelefone);
+		if (dto.getTelefones() != null) {
+			List<Telefone> listTelefone = dto.getTelefones().stream().map(x -> new Telefone( x.getId() ,x.getNumero() )).toList();
+			obj.setTelefones(listTelefone);
+		} else {
+			obj.setTelefones(new ArrayList<Telefone>());
+		}
 		
 		return obj;
 		
