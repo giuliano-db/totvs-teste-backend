@@ -31,6 +31,15 @@ public class PessoaService {
 		return toDto(obj);
 	}
 	
+	public List<Pessoa> findAll() {
+		return repo.findAll();
+	}
+	
+	public void delete(Integer id) {
+		repo.deleteById(id);
+	}
+	
+	
 	public PessoaDTO toDto(Pessoa obj) {
 		PessoaDTO dto = new PessoaDTO();
 		dto.setBairro(obj.getBairro());
