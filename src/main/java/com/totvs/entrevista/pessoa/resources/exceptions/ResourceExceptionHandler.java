@@ -14,10 +14,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import com.totvs.entrevista.pessoa.service.exceptions.TelefoneUnicoException;
 
 @ControllerAdvice
-//Tipo um interceptor
 public class ResourceExceptionHandler {
 	
-	//Intercepta os erros Telefonicounico.
 	@ExceptionHandler(TelefoneUnicoException.class)
 	public ResponseEntity<StandardError> telefonicoUnico(TelefoneUnicoException e, HttpServletRequest request) {
 		
@@ -36,7 +34,6 @@ public class ResourceExceptionHandler {
 		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(err);
 	} 
 	
-	
 	@ExceptionHandler(ConstraintViolationException.class)
 	public ResponseEntity<StandardError> telefonicoUnico(ConstraintViolationException e, HttpServletRequest request) {
 		
@@ -46,9 +43,5 @@ public class ResourceExceptionHandler {
 		}
 		return ResponseEntity.status( HttpStatus.BAD_REQUEST.value()).body(err);
 	}	
-	
-	
-	
-	
 	
 }

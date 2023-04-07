@@ -32,6 +32,18 @@ public class Telefone {
 	@ManyToOne
 	@JoinColumn(name="pessoa_id")
 	private Pessoa pessoa;
+	
+	
+	public Telefone() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Telefone(Integer id, @NotEmpty(message = "Número do telefone deve ser adicionado") String numero) {
+		super();
+		this.id = id;
+		this.numero = numero;
+	}
 
 	public Integer getId() {
 		return id;
