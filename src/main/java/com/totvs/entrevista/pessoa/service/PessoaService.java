@@ -23,6 +23,7 @@ public class PessoaService {
 	
 	public PessoaDTO insert(Pessoa obj) {
 		obj.setId(null);
+		retirarIdTelefone(obj);
 		try {
 			repo.save(obj);
 			
@@ -33,6 +34,7 @@ public class PessoaService {
 		return toDto(obj);
 	}
 	
+
 	public PessoaDTO update(Pessoa obj) {
 		try {
 			Pessoa objBanco = repo.findById(obj.getId()).get();
@@ -85,6 +87,9 @@ public class PessoaService {
 		repo.deleteById(id);
 	}
 	
+	private void retirarIdTelefone(Pessoa obj) {
+		obj.getTelefones().stream().forEach(x -> x.setId(null));
+	}
 	
 	public PessoaDTO toDto(Pessoa obj) {
 		PessoaDTO dto = new PessoaDTO();
