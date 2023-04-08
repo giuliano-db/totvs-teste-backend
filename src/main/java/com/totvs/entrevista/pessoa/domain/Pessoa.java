@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,7 +33,7 @@ public class Pessoa {
 	
 	private String bairro;
 	
-	@OneToMany(mappedBy="pessoa",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="pessoa",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@Size(min=1,message = "Necessário ao menos um telefone")
 	private List<Telefone> telefones;
 

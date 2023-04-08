@@ -39,7 +39,7 @@ public class Telefone {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Telefone(Integer id, @NotEmpty(message = "Número do telefone deve ser adicionado") String numero) {
+	public Telefone(Integer id, @NotEmpty(message = "Número do telefone deve ser adicionado") String numero, Pessoa obj) {
 		super();
 		this.id = id;
 		this.numero = numero;

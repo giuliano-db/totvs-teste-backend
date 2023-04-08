@@ -1,6 +1,7 @@
 package com.totvs.entrevista.pessoa.service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,52 @@ public class PessoaService {
 		return toDto(obj);
 	}
 	
+	public PessoaDTO update(Pessoa obj) {
+		try {
+			Pessoa objBanco = repo.findById(obj.getId()).get();
+			this.updateData(objBanco, obj);
+			
+			repo.save(objBanco);
+			
+		} catch (DataIntegrityViolationException e) {
+			throw new TelefoneUnicoException("Telefone deve ser único");
+		}
+		
+		return toDto(obj);
+	}
+	
+	private void updateData(Pessoa objBanco, Pessoa obj) {
+		objBanco.setBairro(obj.getBairro());
+		objBanco.setEndereco(obj.getEndereco());
+		objBanco.setNome(obj.getNome());
+		
+		objBanco.getTelefones();
+		
+		List<Telefone> add = new ArrayList<>();
+		
+		for (Telefone tel : obj.getTelefones()) {
+			boolean alterou = false;
+			for (Telefone telBanco : objBanco.getTelefones()) {
+				if (telBanco.getId().equals(tel.getId())) {
+					telBanco.setNumero(tel.getNumero());
+					alterou = true;
+				}
+			}
+			if (!alterou) {
+				tel.setId(null);
+				add.add(tel);
+			}
+		}
+		
+		objBanco.getTelefones().addAll(add);
+	}
+
 	public List<Pessoa> findAll() {
 		return repo.findAll();
+	}
+	
+	public Pessoa findById(Integer id) {
+		return repo.findById(id).orElse(null);
 	}
 	
 	public void delete(Integer id) {
@@ -67,8 +112,12 @@ public class PessoaService {
 		obj.setId(dto.getId());
 		
 		if (dto.getTelefones() != null) {
-			List<Telefone> listTelefone = dto.getTelefones().stream().map(x -> new Telefone( x.getId() ,x.getNumero() )).toList();
+			List<Telefone> listTelefone = dto.getTelefones().stream().map(x -> new Telefone( x.getId() ,x.getNumero(),obj )).toList();
+			for (Telefone telefone : listTelefone) {
+				telefone.setPessoa(obj);
+			}
 			obj.setTelefones(listTelefone);
+			
 		} else {
 			obj.setTelefones(new ArrayList<Telefone>());
 		}
