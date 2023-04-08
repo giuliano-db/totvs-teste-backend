@@ -6,6 +6,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.totvs.entrevista.pessoa.resources.dto.PessoaDTO;
 import com.totvs.entrevista.pessoa.service.PessoaService;
+import com.totvs.entrevista.pessoa.service.exceptions.NaoEncontradoException;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -43,12 +45,17 @@ public class PessoaResource {
 	@ApiOperation(value="Atualizar")
 	public ResponseEntity<Void> update(@Valid @RequestBody PessoaDTO pessoa){
 		
-		pessoa = service.update(service.fromDto(pessoa));
+		try {
+			pessoa = service.update(service.fromDto(pessoa));
+
+			URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
+					path("/{id}").buildAndExpand(pessoa.getId()).toUri();
+			
+			return ResponseEntity.created(uri).build();
+		} catch (NaoEncontradoException e) {
+			return ResponseEntity.noContent().build();
+		}
 		
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
-				path("/{id}").buildAndExpand(pessoa.getId()).toUri();
-		
-		return ResponseEntity.created(uri).build();
 		
 	}
 	
@@ -72,7 +79,12 @@ public class PessoaResource {
 	@ApiOperation(value="Delete")
 	@RequestMapping(value = "/{id}" , method=RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id){
-		service.delete(id); 
+		try {
+			service.delete(id); 
+			
+		} catch (EmptyResultDataAccessException e) {
+			// TODO: handle exception
+		}
 		
 		return ResponseEntity.noContent().build();
 		

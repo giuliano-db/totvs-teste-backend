@@ -12,6 +12,7 @@ import com.totvs.entrevista.pessoa.domain.Telefone;
 import com.totvs.entrevista.pessoa.repository.PessoaRepository;
 import com.totvs.entrevista.pessoa.resources.dto.PessoaDTO;
 import com.totvs.entrevista.pessoa.resources.dto.TelefoneDTO;
+import com.totvs.entrevista.pessoa.service.exceptions.NaoEncontradoException;
 import com.totvs.entrevista.pessoa.service.exceptions.TelefoneUnicoException;
 
 @Service
@@ -34,9 +35,9 @@ public class PessoaService {
 	}
 	
 
-	public PessoaDTO update(Pessoa obj) {
+	public PessoaDTO update(Pessoa obj) throws NaoEncontradoException {
 		try {
-			Pessoa objBanco = repo.findById(obj.getId()).get();
+			Pessoa objBanco = repo.findById(obj.getId()).orElseThrow(() -> new NaoEncontradoException("Objeto Não encontrado"));
 			this.updateData(objBanco, obj);
 			
 			repo.save(objBanco);
